@@ -6,7 +6,7 @@ class MyMessageHandler : IHandleMessages<MyMessage>
 {
     public Task Handle(MyMessage message, IMessageHandlerContext context)
     {
-        Console.Write("Hello from MyMessageHandler. Changes " + message.Changes);
+        Console.WriteLine("Hello from MyMessageHandler. Changes " + message.Changes);
         return Task.FromResult(0);
     }
 }

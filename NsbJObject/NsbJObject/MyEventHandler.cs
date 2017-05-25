@@ -6,7 +6,7 @@ class MyEventHandler : IHandleMessages<MyEvent>
 {
     public Task Handle(MyEvent message, IMessageHandlerContext context)
     {
-        Console.Write("Hello from MyEventHandler. Changes " + message.Changes);
+        Console.WriteLine("Hello from MyEventHandler. Changes " + message.Changes);
         return Task.FromResult(0);
     }
 }
