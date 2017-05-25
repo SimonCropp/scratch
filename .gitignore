@@ -5,6 +5,7 @@
 *.suo
 *.user
 *.userosscache
+.learningtransport
 *.sln.docstates
 
 # User-specific files (MonoDevelop/Xamarin Studio)
