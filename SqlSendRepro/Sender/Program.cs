@@ -15,6 +15,7 @@ class Program
         var endpointConfiguration = new EndpointConfiguration("SqlServerSendRepro.Sender");
         endpointConfiguration.SendFailedMessagesTo("error");
         endpointConfiguration.UsePersistence<InMemoryPersistence>();
+        endpointConfiguration.UseSerialization<NewtonsoftSerializer>();
         endpointConfiguration.EnableInstallers();
 
         var transport = endpointConfiguration.UseTransport<SqlServerTransport>();

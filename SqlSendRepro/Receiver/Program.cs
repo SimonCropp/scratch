@@ -14,6 +14,7 @@ class Program
         Console.Title = "SqlServerSendRepro.Receiver";
         var endpointConfiguration = new EndpointConfiguration("SqlServerSendRepro.Receiver");
         endpointConfiguration.SendFailedMessagesTo("error");
+        endpointConfiguration.UseSerialization<NewtonsoftSerializer>();
         var transport = endpointConfiguration.UseTransport<SqlServerTransport>();
         transport.ConnectionString(@"Data Source=.\SqlExpress;Database=SqlServerSendRepro;Integrated Security=True");
         endpointConfiguration.UsePersistence<InMemoryPersistence>();
