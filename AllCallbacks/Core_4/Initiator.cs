@@ -1,23 +1,27 @@
-﻿using System.Threading.Tasks;
-using NServiceBus;
+﻿using NServiceBus;
 
 public static class Initiator
 {
 
     public static void Initiate(this IBus bus)
     {
-        Parallel.ForEach(EndpointNames.All, endpointName =>
-        {
-            var remoteName = endpointName;
-
-            bus.Send(remoteName, new ObjectMessage())
-                .Register(i =>
-                {
-                    var localResult = (CompletionResult)i.AsyncState;
-                    var response = (ObjectResponseMessage)localResult.Messages[0];
-                    Asserter.IsTrue("PropertyValue" == response.Property, "Incorrect object value");
-                    Verifier.ObjectReplyReceivedFrom.Add(remoteName);
-                }, null);
-        });
+        bus.Send("Core_3", new ObjectMessage())
+            .Register(i =>
+            {
+                var localResult = (CompletionResult) i.AsyncState;
+                var response = (ObjectResponseMessage) localResult.Messages[0];
+            }, null);
+        bus.Send("Core_5", new ObjectMessage())
+            .Register(i =>
+            {
+                var localResult = (CompletionResult) i.AsyncState;
+                var response = (ObjectResponseMessage) localResult.Messages[0];
+            }, null);
+        bus.Send("Callbacks_2", new ObjectMessage())
+            .Register(i =>
+            {
+                var localResult = (CompletionResult) i.AsyncState;
+                var response = (ObjectResponseMessage) localResult.Messages[0];
+            }, null);
     }
 }

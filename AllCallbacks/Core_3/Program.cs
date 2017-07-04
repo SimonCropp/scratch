@@ -7,19 +7,19 @@ class Program
 {
     static void Main()
     {
-        //HACK: for trial dialog issue https://github.com/Particular/NServiceBus/issues/2001
         var synchronizationContext = SynchronizationContext.Current;
-        var bus = CreateBus();
-        SynchronizationContext.SetSynchronizationContext(synchronizationContext);
-        TestRunner.RunTests(bus);
+        using (var bus = CreateBus())
+        {
+            SynchronizationContext.SetSynchronizationContext(synchronizationContext);
+            bus.Initiate();
+        }
     }
 
     static UnicastBus CreateBus()
     {
-        Configure.GetEndpointNameAction = () => EndpointNames.EndpointName;
+        Configure.GetEndpointNameAction = () => "Core_3";
 
         Logging.ConfigureLogging();
-        Asserter.LogError = log4net.LogManager.GetLogger("Asserter").Error;
         var configure = Configure.With();
         configure.DisableTimeoutManager();
         configure.DefiningMessagesAs(MessageConventions.IsMessage);

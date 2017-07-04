@@ -5,15 +5,16 @@ class Program
 {
     public static void Main()
     {
-        var bus = CreateBus();
-        TestRunner.RunTests(bus);
+        using (var bus = CreateBus())
+        {
+            bus.Initiate();
+        }
     }
 
     static IBus CreateBus()
     {
-        Asserter.LogError = NServiceBus.Logging.LogManager.GetLogger("Asserter").Error;
         var busConfiguration = new BusConfiguration();
-        busConfiguration.EndpointName(EndpointNames.EndpointName);
+        busConfiguration.EndpointName("Core_5");
         var conventions = busConfiguration.Conventions();
         conventions.DefiningMessagesAs(MessageConventions.IsMessage);
         busConfiguration.UseSerialization<JsonSerializer>();

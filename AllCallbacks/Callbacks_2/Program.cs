@@ -14,14 +14,14 @@ class Program
     {
         var bus = await CreateBus()
             .ConfigureAwait(false);
-        await TestRunner.RunTests(bus)
-            .ConfigureAwait(false);
+        bus.Initiate();
+
+        await bus.Stop().ConfigureAwait(false);
     }
 
     static Task<IEndpointInstance> CreateBus()
     {
-        Asserter.LogError = NServiceBus.Logging.LogManager.GetLogger("Asserter").Error;
-        var endpointConfiguration = new EndpointConfiguration(EndpointNames.EndpointName);
+        var endpointConfiguration = new EndpointConfiguration("Callbacks_2");
         var conventions = endpointConfiguration.Conventions();
         conventions.DefiningMessagesAs(MessageConventions.IsMessage);
 
