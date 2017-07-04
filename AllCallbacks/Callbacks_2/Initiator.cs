@@ -11,14 +11,6 @@ public static class Initiator
             var remoteName = endpoint;
             Task.Run(() =>
             {
-                var intResult = bus.Request<int>(new IntMessage(), GetSendOptions(remoteName)).Result;
-                Asserter.IsTrue(5 == intResult, "Incorrect int value");
-                Verifier.IntReplyReceivedFrom.Add(remoteName);
-
-                var enumResult = bus.Request<CustomEnum>(new EnumMessage(), GetSendOptions(remoteName)).Result;
-                Asserter.IsTrue(CustomEnum.Value2 == enumResult, "Incorrect enum value");
-                Verifier.EnumReplyReceivedFrom.Add(remoteName);
-
                 var response = bus.Request<ObjectResponseMessage>(new ObjectMessage(), GetSendOptions(remoteName)).Result;
                 Asserter.IsTrue("PropertyValue" == response.Property, "Incorrect object value");
                 Verifier.ObjectReplyReceivedFrom.Add(remoteName);

@@ -8,14 +8,9 @@
     <OutputType>Exe</OutputType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NServiceBus" Version="5.2.*" />
+    <PackageReference Include="NServiceBus" Version="5.*" />
+    <ProjectReference Include="..\Common\Common.csproj" />
     <Reference Include="System.Configuration" />
     <Reference Include="Microsoft.CSharp" />
-    <Compile Include="..\Core_5_0\*.cs">
-      <Link>%(Filename).cs</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>
 </Project>
