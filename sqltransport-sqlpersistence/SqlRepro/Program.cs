@@ -22,11 +22,12 @@ public static class Program
         endpointConfiguration.SendFailedMessagesTo("error");
         endpointConfiguration.AuditProcessedMessagesTo("audit");
         endpointConfiguration.EnableInstallers();
-        var connection = @"Data Source=.\SqlExpress;Database=SqlRepro;Integrated Security=True;Max Pool Size=100";
+        var persistenceConnection = @"Data Source=.\SqlExpress;Database=SqlReproPersistence;Integrated Security=True;Max Pool Size=100";
+        var transportConnection = @"Data Source=.\SqlExpress;Database=SqlReproPersistence;Integrated Security=True;Max Pool Size=100";
 
 
         var transport = endpointConfiguration.UseTransport<SqlServerTransport>();
-        transport.ConnectionString(connection);
+        transport.ConnectionString(transportConnection);
         transport.UseSchemaForQueue("error", "dbo");
         transport.UseSchemaForQueue("audit", "dbo");
 
@@ -37,7 +38,7 @@ public static class Program
         persistence.ConnectionBuilder(
             connectionBuilder: () =>
             {
-                return new SqlConnection(connection);
+                return new SqlConnection(persistenceConnection);
             });
         persistence.Schema("persistence");
         //persistence.TablePrefix("");
@@ -46,7 +47,8 @@ public static class Program
 
         #endregion
 
-        SqlHelper.CreateSchema(connection, "persistence");
+        SqlHelper.CreateSchema(persistenceConnection, "persistence");
+        SqlHelper.EnsureDatabaseExists(transportConnection);
         var endpointInstance = await Endpoint.Start(endpointConfiguration)
             .ConfigureAwait(false);
         Console.WriteLine("Press enter to send a message");
