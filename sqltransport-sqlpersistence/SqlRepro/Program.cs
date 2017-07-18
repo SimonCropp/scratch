@@ -40,7 +40,7 @@ public static class Program
                 return new SqlConnection(connection);
             });
         persistence.Schema("persistence");
-        persistence.TablePrefix("");
+        //persistence.TablePrefix("");
         var subscriptions = persistence.SubscriptionSettings();
         subscriptions.CacheFor(TimeSpan.FromMinutes(1));
 
