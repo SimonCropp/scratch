@@ -15,15 +15,15 @@ public static class Program
 
     static async Task AsyncMain()
     {
-        Console.Title = "Samples.Sql.Sender";
-        var endpointConfiguration = new EndpointConfiguration("Samples.Sql.Sender");
+        Console.Title = "Samples.Sql.Publisher";
+        var endpointConfiguration = new EndpointConfiguration("Samples.Sql.Publisher");
         endpointConfiguration.SendFailedMessagesTo("error");
         endpointConfiguration.EnableInstallers();
 
         var connection = @"Data Source=.\SqlExpress;Database=NsbSamplesSql;Integrated Security=True;Max Pool Size=100";
         var transport = endpointConfiguration.UseTransport<SqlServerTransport>();
         transport.ConnectionString(connection);
-        transport.DefaultSchema("sender");
+        transport.DefaultSchema("publisher");
         transport.UseSchemaForQueue("error", "dbo");
         transport.UseSchemaForQueue("audit", "dbo");
 
@@ -34,12 +34,12 @@ public static class Program
             {
                 return new SqlConnection(connection);
             });
-        persistence.Schema("sender");
+        persistence.Schema("publisher");
         persistence.TablePrefix("");
         var subscriptionSettings = persistence.SubscriptionSettings();
         subscriptionSettings.CacheFor(TimeSpan.FromMilliseconds(1));
 
-        SqlHelper.CreateSchema(connection, "sender");
+        SqlHelper.CreateSchema(connection, "publisher");
 
         var endpointInstance = await Endpoint.Start(endpointConfiguration)
             .ConfigureAwait(false);

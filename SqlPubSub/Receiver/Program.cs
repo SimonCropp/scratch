@@ -31,12 +31,12 @@ public static class Program
         transport.DefaultSchema("receiver");
         transport.UseSchemaForQueue("error", "dbo");
         transport.UseSchemaForQueue("audit", "dbo");
-        transport.UseSchemaForQueue("Samples.Sql.Sender", "sender");
+        transport.UseSchemaForQueue("Samples.Sql.Publisher", "publisher");
 
         transport.Transactions(TransportTransactionMode.SendsAtomicWithReceive);
 
         var routing = transport.Routing();
-        routing.RegisterPublisher(typeof(OrderSubmitted).Assembly, "Samples.Sql.Sender");
+        routing.RegisterPublisher(typeof(OrderSubmitted).Assembly, "Samples.Sql.Publisher");
 
         var persistence = endpointConfiguration.UsePersistence<SqlPersistence>();
         persistence.SqlVariant(SqlVariant.MsSqlServer);
