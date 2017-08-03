@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using NServiceBus;
 
-public class OrderCompleted :
+public class OrderSubmitted :
     IEvent
 {
     public Guid OrderId { get; set; }
