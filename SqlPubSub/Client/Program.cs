@@ -1,8 +1,8 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using NServiceBus;
 
-static class Program
+class Program
 {
     static void Main()
     {
@@ -11,22 +11,21 @@ static class Program
 
     static async Task AsyncMain()
     {
-        Console.Title = "Samples.PubSub.Subscriber";
-        var endpointConfiguration = new EndpointConfiguration("Samples.PubSub.Subscriber");
+        Console.Title = "Samples.SqlPersistence.Client";
+        var endpointConfiguration = new EndpointConfiguration("Samples.SqlPersistence.Client");
         endpointConfiguration.UsePersistence<InMemoryPersistence>();
         var transport = endpointConfiguration.UseTransport<MsmqTransport>();
+        endpointConfiguration.SendFailedMessagesTo("error");
         var routing = transport.Routing();
         routing.RegisterPublisher(
-            eventType: typeof(OrderReceived),
-            publisherEndpoint: "Samples.PubSub.Publisher");
-
-        endpointConfiguration.SendFailedMessagesTo("error");
-        endpointConfiguration.EnableInstallers();
+            eventType: typeof(OrderCompleted),
+            publisherEndpoint: "Samples.SqlPersistence.EndpointSqlServer");
 
         var endpointInstance = await Endpoint.Start(endpointConfiguration)
             .ConfigureAwait(false);
+
         Console.WriteLine("Press any key to exit");
-        Console.ReadKey();
+        Console.Read();
         await endpointInstance.Stop()
             .ConfigureAwait(false);
     }
