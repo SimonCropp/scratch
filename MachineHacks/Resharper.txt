@@ -1,0 +1,10 @@
+Disable Products
+
+ * Asp.net *
+ * Css
+ * Internationalization
+ * Js + TS
+ * Protobuf
+ * MsBuild and Nant
+
+Disable product feedback

@@ -1,0 +1,10 @@
+disable quick launch
+
+
+Disable node js https://stackoverflow.com/questions/42769106/visual-studio-2017-node-js-server-process-turn-off
+
+disable-perfwatson2 https://stackoverflow.com/questions/42662444/how-to-disable-perfwatson2-exe-from-visual-studio-2017
+
+https://marketplace.visualstudio.com/items?itemName=Shanewho.IHateRegions
+
+https://marketplace.visualstudio.com/items?itemName=MadsKristensen.TrailingWhitespaceVisualizer
