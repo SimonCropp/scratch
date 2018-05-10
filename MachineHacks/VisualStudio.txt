@@ -8,3 +8,5 @@ disable-perfwatson2 https://stackoverflow.com/questions/42662444/how-to-disable-
 https://marketplace.visualstudio.com/items?itemName=Shanewho.IHateRegions
 
 https://marketplace.visualstudio.com/items?itemName=MadsKristensen.TrailingWhitespaceVisualizer
+
+setx DOTNET_CLI_TELEMETRY_OPTOUT 1
