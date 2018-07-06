@@ -5,6 +5,27 @@ using Xunit;
 public class Tests
 {
     [Fact]
+    public void Nested()
+    {
+        var list = new List<Target>
+        {
+            new Target
+            {
+                Member = "a"
+            },
+            new Target
+            {
+                Member = "bb"
+            }
+        };
+
+        var result = list.AsQueryable()
+            .Where(ExpressionUtils.BuildPredicate<Target>("Member.Length", "==", 2))
+            .Single();
+        Assert.Equal("bb", result.Member);
+    }
+
+    [Fact]
     public void Field()
     {
         var list = new List<TargetWithField>
