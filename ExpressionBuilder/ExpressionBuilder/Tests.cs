@@ -27,6 +27,35 @@ public class Tests
     }
 
     [Fact]
+    public void Nullable()
+    {
+        var list = new List<TargetWithNullable>
+        {
+            new TargetWithNullable
+            {
+                Field = null
+            },
+            new TargetWithNullable
+            {
+                Field = 10
+            }
+        };
+
+        var resultFromString = list.AsQueryable()
+            .Where(ExpressionUtils.BuildPredicateFromString<TargetWithNullable>("Field", "==", "10"))
+            .Single();
+        Assert.Equal(10, resultFromString.Field);
+        var result = list.AsQueryable()
+            .Where(ExpressionUtils.BuildPredicate<TargetWithNullable>("Field", "==", 10))
+            .Single();
+        Assert.Equal(10, result.Field);
+        var nullResult = list.AsQueryable()
+            .Where(ExpressionUtils.BuildPredicate<TargetWithNullable>("Field", "==", null))
+            .Single();
+        Assert.Null(nullResult.Field);
+    }
+
+    [Fact]
     public void Field()
     {
         var list = new List<TargetWithField>
@@ -42,7 +71,7 @@ public class Tests
         };
 
         var result = list.AsQueryable()
-            .Where(ExpressionUtils.BuildPredicate<TargetWithField>("Field", "==", "Target2"))
+            .Where(ExpressionUtils.BuildPredicateFromString<TargetWithField>("Field", "==", "Target2"))
             .Single();
         Assert.Equal("Target2", result.Field);
     }
@@ -85,6 +114,7 @@ public class Tests
 
     [Theory]
     [InlineData(typeof(int), "12", 12)]
+    [InlineData(typeof(int?), null, null)]
     public void ConvertStringToType(Type type, string value, object expected)
     {
         var result = ExpressionUtils.ConvertStringToType(value, type);

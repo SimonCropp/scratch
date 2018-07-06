@@ -8,7 +8,7 @@ public static class ExpressionUtils
     {
         if (value is string s)
         {
-            return BuildPredicate<T>(propertyName, comparison, s);
+            return BuildPredicateFromString<T>(propertyName, comparison, s);
         }
         var parameter = Expression.Parameter(typeof(T));
         var left = AggregatePath(propertyName, parameter);
@@ -16,7 +16,7 @@ public static class ExpressionUtils
         return Expression.Lambda<Func<T, bool>>(body, parameter);
     }
 
-    public static Expression<Func<T, bool>> BuildPredicate<T>(string propertyName, string comparison, string value)
+    public static Expression<Func<T, bool>> BuildPredicateFromString<T>(string propertyName, string comparison, string value)
     {
         var parameter = Expression.Parameter(typeof(T));
         var left = AggregatePath(propertyName, parameter);
@@ -31,6 +31,16 @@ public static class ExpressionUtils
         if (type == typeof(Guid))
         {
             return Guid.Parse(value);
+        }
+
+        var underlyingType = Nullable.GetUnderlyingType(type);
+        if (underlyingType != null)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+            type = underlyingType;
         }
         return Convert.ChangeType(value, type);
     }
@@ -65,10 +75,9 @@ public static class ExpressionUtils
         }
     }
 
-    static Expression AggregatePath(string propertyName, ParameterExpression parameter)
+    static Expression AggregatePath(string propertyName, Expression parameter)
     {
         return propertyName.Split('.')
-            .Aggregate((Expression)parameter, Expression.PropertyOrField);
+            .Aggregate(parameter, Expression.PropertyOrField);
     }
-
 }
