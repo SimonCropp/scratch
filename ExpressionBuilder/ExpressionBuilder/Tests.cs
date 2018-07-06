@@ -4,19 +4,40 @@ using Xunit;
 
 public class Tests
 {
+    [Fact]
+    public void Field()
+    {
+        var list = new List<TargetWithField>
+        {
+            new TargetWithField
+            {
+                Field = "Target1"
+            },
+            new TargetWithField
+            {
+                Field = "Target2"
+            }
+        };
+
+        var result = list.AsQueryable()
+            .Where(ExpressionUtils.BuildPredicate<TargetWithField>("Field", "==", "Target2"))
+            .Single();
+        Assert.Equal("Target2", result.Field);
+    }
+
     [Theory]
     [InlineData("Name", "==", "Person 1", "Person 1")]
     [InlineData("Name", "!=", "Person 2", "Person 1")]
     [InlineData("Name", "Contains", "son 2", "Person 2")]
     [InlineData("Name", "StartsWith", "Person 2", "Person 2")]
     [InlineData("Name", "EndsWith", "son 2", "Person 2")]
-    [InlineData("Age", "==", "13", "Person 2")]
-    [InlineData("Age", ">", "12", "Person 2")]
-    [InlineData("Age", "!=", "12", "Person 2")]
-    [InlineData("Age", ">=", "13", "Person 2")]
-    [InlineData("Age", "<", "13", "Person 1")]
-    [InlineData("Age", "<=", "12", "Person 1")]
-    public void Foo(string name, string expression, string value, string expectedName)
+    [InlineData("Age", "==", 13, "Person 2")]
+    [InlineData("Age", ">", 12, "Person 2")]
+    [InlineData("Age", "!=", 12, "Person 2")]
+    [InlineData("Age", ">=", 13, "Person 2")]
+    [InlineData("Age", "<", 13, "Person 1")]
+    [InlineData("Age", "<=", 12, "Person 1")]
+    public void Foo(string name, string expression, object value, string expectedName)
     {
         var people = new List<Person>
         {

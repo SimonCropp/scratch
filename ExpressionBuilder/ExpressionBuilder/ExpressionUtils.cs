@@ -4,63 +4,38 @@ using System.Linq.Expressions;
 
 public static class ExpressionUtils
 {
-    public static Expression<Func<T, bool>> BuildPredicate<T>(string propertyName, string comparison, string value)
+    public static Expression<Func<T, bool>> BuildPredicate<T>(string propertyName, string comparison, object value)
     {
-        var parameter = Expression.Parameter(typeof(T), "x");
-        var left = propertyName.Split('.').Aggregate((Expression)parameter, Expression.Property);
+        var parameter = Expression.Parameter(typeof(T));
+        var left = propertyName.Split('.').Aggregate((Expression)parameter, Expression.PropertyOrField);
         var body = MakeComparison(left, comparison, value);
         return Expression.Lambda<Func<T, bool>>(body, parameter);
     }
 
-    private static Expression MakeComparison(Expression left, string comparison, string value)
+    static Expression MakeComparison(Expression left, string comparison, object value)
     {
+        var constant = Expression.Constant(value, left.Type);
         switch (comparison)
         {
             case "==":
-                return MakeBinary(ExpressionType.Equal, left, value);
+                return Expression.MakeBinary(ExpressionType.Equal, left, constant);
             case "!=":
-                return MakeBinary(ExpressionType.NotEqual, left, value);
+                return Expression.MakeBinary(ExpressionType.NotEqual, left, constant);
             case ">":
-                return MakeBinary(ExpressionType.GreaterThan, left, value);
+                return Expression.MakeBinary(ExpressionType.GreaterThan, left, constant);
             case ">=":
-                return MakeBinary(ExpressionType.GreaterThanOrEqual, left, value);
+                return Expression.MakeBinary(ExpressionType.GreaterThanOrEqual, left, constant);
             case "<":
-                return MakeBinary(ExpressionType.LessThan, left, value);
+                return Expression.MakeBinary(ExpressionType.LessThan, left, constant);
             case "<=":
-                return MakeBinary(ExpressionType.LessThanOrEqual, left, value);
+                return Expression.MakeBinary(ExpressionType.LessThanOrEqual, left, constant);
             case "Contains":
             case "StartsWith":
             case "EndsWith":
                 //TODO:validate string
-                return Expression.Call(left, comparison, Type.EmptyTypes, Expression.Constant(value, typeof(string)));
+                return Expression.Call(left, comparison, Type.EmptyTypes, constant);
             default:
                 throw new NotSupportedException($"Invalid comparison operator '{comparison}'.");
         }
-    }
-
-    private static Expression MakeString(Expression source)
-    {
-        return source.Type == typeof(string) ? source : Expression.Call(source, "ToString", Type.EmptyTypes);
-    }
-
-    private static Expression MakeBinary(ExpressionType type, Expression left, string value)
-    {
-        object typedValue = value;
-        if (left.Type != typeof(string))
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                typedValue = null;
-                if (Nullable.GetUnderlyingType(left.Type) == null)
-                    left = Expression.Convert(left, typeof(Nullable<>).MakeGenericType(left.Type));
-            }
-            else
-            {
-                var valueType = Nullable.GetUnderlyingType(left.Type) ?? left.Type;
-                typedValue = valueType == typeof(Guid) ? Guid.Parse(value) : Convert.ChangeType(value, valueType);
-            }
-        }
-        var right = Expression.Constant(typedValue, left.Type);
-        return Expression.MakeBinary(type, left, right);
     }
 }
