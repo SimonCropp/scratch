@@ -6,6 +6,10 @@ public static class ExpressionUtils
 {
     public static Expression<Func<T, bool>> BuildPredicate<T>(string propertyName, string comparison, object value)
     {
+        if (value is string s)
+        {
+            return BuildPredicate<T>(propertyName, comparison, s);
+        }
         var parameter = Expression.Parameter(typeof(T));
         var left = AggregatePath(propertyName, parameter);
         var body = MakeComparison(left, comparison, value);
@@ -28,8 +32,7 @@ public static class ExpressionUtils
         {
             return Guid.Parse(value);
         }
-        var valueAsObject = Convert.ChangeType(value, type);
-        return valueAsObject;
+        return Convert.ChangeType(value, type);
     }
 
     static Expression MakeComparison(Expression left, string comparison, object value)

@@ -54,6 +54,7 @@ public class Tests
     [InlineData("Name", "Contains", "son 2", "Person 2")]
     [InlineData("Name", "StartsWith", "Person 2", "Person 2")]
     [InlineData("Name", "EndsWith", "son 2", "Person 2")]
+    [InlineData("Age", "==", "13", "Person 2")]
     [InlineData("Age", "==", 13, "Person 2")]
     [InlineData("Age", ">", 12, "Person 2")]
     [InlineData("Age", "!=", 12, "Person 2")]
@@ -81,11 +82,30 @@ public class Tests
             .Single();
         Assert.Equal(expectedName, result.Name);
     }
+
     [Theory]
     [InlineData(typeof(int), "12", 12)]
     public void ConvertStringToType(Type type, string value, object expected)
     {
         var result = ExpressionUtils.ConvertStringToType(value, type);
         Assert.Equal(expected, result);
+    }
+
+    [Fact]
+    public void ConvertStringToGuid()
+    {
+        var guid = Guid.NewGuid();
+        var value = guid.ToString();
+        var result = ExpressionUtils.ConvertStringToType(value, typeof(Guid));
+        Assert.Equal(guid, result);
+    }
+
+    [Fact]
+    public void ConvertStringToDatetime()
+    {
+        var dateTime = DateTime.Now.Date;
+        var value = dateTime.ToString();
+        var result = ExpressionUtils.ConvertStringToType(value, typeof(DateTime));
+        Assert.Equal(dateTime, result);
     }
 }
