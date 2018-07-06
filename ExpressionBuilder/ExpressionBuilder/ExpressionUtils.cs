@@ -7,9 +7,29 @@ public static class ExpressionUtils
     public static Expression<Func<T, bool>> BuildPredicate<T>(string propertyName, string comparison, object value)
     {
         var parameter = Expression.Parameter(typeof(T));
-        var left = propertyName.Split('.').Aggregate((Expression)parameter, Expression.PropertyOrField);
+        var left = AggregatePath(propertyName, parameter);
         var body = MakeComparison(left, comparison, value);
         return Expression.Lambda<Func<T, bool>>(body, parameter);
+    }
+
+    public static Expression<Func<T, bool>> BuildPredicate<T>(string propertyName, string comparison, string value)
+    {
+        var parameter = Expression.Parameter(typeof(T));
+        var left = AggregatePath(propertyName, parameter);
+
+        var valueAsObject = ConvertStringToType(value, left.Type);
+        var body = MakeComparison(left, comparison, valueAsObject);
+        return Expression.Lambda<Func<T, bool>>(body, parameter);
+    }
+
+    public static object ConvertStringToType(string value, Type type)
+    {
+        if (type == typeof(Guid))
+        {
+            return Guid.Parse(value);
+        }
+        var valueAsObject = Convert.ChangeType(value, type);
+        return valueAsObject;
     }
 
     static Expression MakeComparison(Expression left, string comparison, object value)
@@ -41,4 +61,10 @@ public static class ExpressionUtils
                 throw new NotSupportedException($"Invalid comparison operator '{comparison}'.");
         }
     }
+
+    static Expression AggregatePath(string propertyName, ParameterExpression parameter)
+    {
+        return propertyName.Split('.').Aggregate((Expression)parameter, Expression.PropertyOrField);
+    }
+
 }

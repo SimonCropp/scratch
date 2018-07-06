@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -46,6 +47,7 @@ public class Tests
         Assert.Equal("Target2", result.Field);
     }
 
+
     [Theory]
     [InlineData("Name", "==", "Person 1", "Person 1")]
     [InlineData("Name", "!=", "Person 2", "Person 1")]
@@ -78,5 +80,12 @@ public class Tests
             .Where(ExpressionUtils.BuildPredicate<Person>(name, expression, value))
             .Single();
         Assert.Equal(expectedName, result.Name);
+    }
+    [Theory]
+    [InlineData(typeof(int), "12", 12)]
+    public void ConvertStringToType(Type type, string value, object expected)
+    {
+        var result = ExpressionUtils.ConvertStringToType(value, type);
+        Assert.Equal(expected, result);
     }
 }
