@@ -8,9 +8,9 @@ public static class ExpressionUtils
     {
         var parameter = Expression.Parameter(typeof(T));
         var left = AggregatePath(propertyName, parameter);
-        if (left.Type != typeof(string) && value is string s)
+        if (left.Type != typeof(string) && value is string stringValue)
         {
-            value = ConvertStringToType(s, left.Type);
+            value = ConvertStringToType(stringValue, left.Type);
         }
 
         var body = MakeComparison(left, comparison, value);
