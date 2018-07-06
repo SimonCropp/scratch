@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -32,8 +33,11 @@ public static class ExpressionUtils
             case "Contains":
             case "StartsWith":
             case "EndsWith":
-                //TODO:validate string
-                return Expression.Call(left, comparison, Type.EmptyTypes, constant);
+                if (value is string)
+                {
+                    return Expression.Call(left, comparison, Type.EmptyTypes, constant);
+                }
+                throw new NotSupportedException($"Comparison operator '{comparison}' only supported on string.");
             default:
                 throw new NotSupportedException($"Invalid comparison operator '{comparison}'.");
         }
