@@ -58,7 +58,7 @@ public class Tests
     [InlineData("Age", ">=", 13, "Person 2")]
     [InlineData("Age", "<", 13, "Person 1")]
     [InlineData("Age", "<=", 12, "Person 1")]
-    public void Foo(string name, string expression, object value, string expectedName)
+    public void Combos(string name, string expression, object value, string expectedName)
     {
         var people = new List<Person>
         {
