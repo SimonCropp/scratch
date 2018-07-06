@@ -31,7 +31,8 @@ public static class ExpressionUtils
             case "Contains":
             case "StartsWith":
             case "EndsWith":
-                return Expression.Call(MakeString(left), comparison, Type.EmptyTypes, Expression.Constant(value, typeof(string)));
+                //TODO:validate string
+                return Expression.Call(left, comparison, Type.EmptyTypes, Expression.Constant(value, typeof(string)));
             default:
                 throw new NotSupportedException($"Invalid comparison operator '{comparison}'.");
         }
