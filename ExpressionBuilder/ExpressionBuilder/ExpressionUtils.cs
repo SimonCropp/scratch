@@ -69,10 +69,11 @@ public static class ExpressionUtils
                 {
                     return Expression.Call(left, comparison, Type.EmptyTypes, constant);
                 }
+
                 throw new NotSupportedException($"Comparison operator '{comparison}' only supported on string.");
-            default:
-                throw new NotSupportedException($"Invalid comparison operator '{comparison}'.");
         }
+
+        throw new NotSupportedException($"Invalid comparison operator '{comparison}'.");
     }
 
     static Expression AggregatePath(string propertyName, Expression parameter)
