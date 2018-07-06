@@ -6,23 +6,14 @@ public static class ExpressionUtils
 {
     public static Expression<Func<T, bool>> BuildPredicate<T>(string propertyName, string comparison, object value)
     {
-        if (value is string s)
+        var parameter = Expression.Parameter(typeof(T));
+        var left = AggregatePath(propertyName, parameter);
+        if (left.Type != typeof(string) && value is string s)
         {
-            return BuildPredicateFromString<T>(propertyName, comparison, s);
+            value = ConvertStringToType(s, left.Type);
         }
-        var parameter = Expression.Parameter(typeof(T));
-        var left = AggregatePath(propertyName, parameter);
+
         var body = MakeComparison(left, comparison, value);
-        return Expression.Lambda<Func<T, bool>>(body, parameter);
-    }
-
-    public static Expression<Func<T, bool>> BuildPredicateFromString<T>(string propertyName, string comparison, string value)
-    {
-        var parameter = Expression.Parameter(typeof(T));
-        var left = AggregatePath(propertyName, parameter);
-
-        var valueAsObject = ConvertStringToType(value, left.Type);
-        var body = MakeComparison(left, comparison, valueAsObject);
         return Expression.Lambda<Func<T, bool>>(body, parameter);
     }
 

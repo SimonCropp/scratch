@@ -42,7 +42,7 @@ public class Tests
         };
 
         var resultFromString = list.AsQueryable()
-            .Where(ExpressionUtils.BuildPredicateFromString<TargetWithNullable>("Field", "==", "10"))
+            .Where(ExpressionUtils.BuildPredicate<TargetWithNullable>("Field", "==", "10"))
             .Single();
         Assert.Equal(10, resultFromString.Field);
         var result = list.AsQueryable()
@@ -71,7 +71,7 @@ public class Tests
         };
 
         var result = list.AsQueryable()
-            .Where(ExpressionUtils.BuildPredicateFromString<TargetWithField>("Field", "==", "Target2"))
+            .Where(ExpressionUtils.BuildPredicate<TargetWithField>("Field", "==", "Target2"))
             .Single();
         Assert.Equal("Target2", result.Field);
     }
