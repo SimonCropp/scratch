@@ -67,7 +67,8 @@ public static class ExpressionUtils
 
     static Expression AggregatePath(string propertyName, ParameterExpression parameter)
     {
-        return propertyName.Split('.').Aggregate((Expression)parameter, Expression.PropertyOrField);
+        return propertyName.Split('.')
+            .Aggregate((Expression)parameter, Expression.PropertyOrField);
     }
 
 }
