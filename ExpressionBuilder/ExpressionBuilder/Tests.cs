@@ -5,6 +5,10 @@ using Xunit;
 
 public class Tests
 {
+    public class Target
+    {
+        public string Member { get; set; }
+    }
     [Fact]
     public void Nested()
     {
@@ -21,7 +25,7 @@ public class Tests
         };
 
         var result = list.AsQueryable()
-            .Where(ExpressionUtils.BuildPredicate<Target>("Member.Length", "==", 2))
+            .Where(ComparisonBuilder.BuildPredicate<Target>("Member.Length", "==", 2))
             .Single();
         Assert.Equal("bb", result.Member);
     }
@@ -42,19 +46,47 @@ public class Tests
         };
 
         var resultFromString = list.AsQueryable()
-            .Where(ExpressionUtils.BuildPredicate<TargetWithNullable>("Field", "==", "10"))
+            .Where(ComparisonBuilder.BuildPredicate<TargetWithNullable>("Field", "==", "10"))
             .Single();
         Assert.Equal(10, resultFromString.Field);
         var result = list.AsQueryable()
-            .Where(ExpressionUtils.BuildPredicate<TargetWithNullable>("Field", "==", 10))
+            .Where(ComparisonBuilder.BuildPredicate<TargetWithNullable>("Field", "==", 10))
             .Single();
         Assert.Equal(10, result.Field);
         var nullResult = list.AsQueryable()
-            .Where(ExpressionUtils.BuildPredicate<TargetWithNullable>("Field", "==", null))
+            .Where(ComparisonBuilder.BuildPredicate<TargetWithNullable>("Field", "==", null))
             .Single();
         Assert.Null(nullResult.Field);
     }
+    public class TargetWithNullable
+    {
+        public int? Field;
+    }
 
+    [Fact]
+    public void InList()
+    {
+        var list = new List<TargetForIn>
+        {
+            new TargetForIn
+            {
+                Member ="Value1"
+            },
+            new TargetForIn
+            {
+                Member ="Value2"
+            }
+        };
+
+        var result = list.AsQueryable()
+            .Where(ComparisonBuilder.BuildInPredicate<TargetForIn>("Member", new List<string>{ "Value2" }))
+            .Single();
+        Assert.Contains("Value2", result.Member);
+    }
+    public class TargetForIn
+    {
+        public string Member;
+    }
     [Fact]
     public void Field()
     {
@@ -71,11 +103,14 @@ public class Tests
         };
 
         var result = list.AsQueryable()
-            .Where(ExpressionUtils.BuildPredicate<TargetWithField>("Field", "==", "Target2"))
+            .Where(ComparisonBuilder.BuildPredicate<TargetWithField>("Field", "==", "Target2"))
             .Single();
         Assert.Equal("Target2", result.Field);
     }
-
+    public class TargetWithField
+    {
+        public string Field;
+    }
 
     [Theory]
     [InlineData("Name", "==", "Person 1", "Person 1")]
@@ -107,9 +142,14 @@ public class Tests
         };
 
         var result = people.AsQueryable()
-            .Where(ExpressionUtils.BuildPredicate<Person>(name, expression, value))
+            .Where(ComparisonBuilder.BuildPredicate<Person>(name, expression, value))
             .Single();
         Assert.Equal(expectedName, result.Name);
+    }
+    public class Person
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
     }
 
     [Theory]
@@ -117,7 +157,7 @@ public class Tests
     [InlineData(typeof(int?), null, null)]
     public void ConvertStringToType(Type type, string value, object expected)
     {
-        var result = ExpressionUtils.ConvertStringToType(value, type);
+        var result = ComparisonBuilder.ConvertStringToType(value, type);
         Assert.Equal(expected, result);
     }
 
@@ -126,7 +166,7 @@ public class Tests
     {
         var guid = Guid.NewGuid();
         var value = guid.ToString();
-        var result = ExpressionUtils.ConvertStringToType(value, typeof(Guid));
+        var result = ComparisonBuilder.ConvertStringToType(value, typeof(Guid));
         Assert.Equal(guid, result);
     }
 
@@ -135,7 +175,7 @@ public class Tests
     {
         var dateTime = DateTime.Now.Date;
         var value = dateTime.ToString();
-        var result = ExpressionUtils.ConvertStringToType(value, typeof(DateTime));
+        var result = ComparisonBuilder.ConvertStringToType(value, typeof(DateTime));
         Assert.Equal(dateTime, result);
     }
 }
