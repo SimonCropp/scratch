@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net471</TargetFramework>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>

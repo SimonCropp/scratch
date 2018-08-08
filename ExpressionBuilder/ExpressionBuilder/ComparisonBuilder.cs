@@ -1,19 +1,35 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using System.Linq.Expressions;
 
-public static class ExpressionUtils
+public static class ComparisonBuilder
 {
-    public static Expression<Func<T, bool>> BuildPredicate<T>(string propertyName, string comparison, object value)
+    public static Expression<Func<T, bool>> BuildPredicate<T>(string propertyPath, string comparison, object value)
     {
         var parameter = Expression.Parameter(typeof(T));
-        var left = AggregatePath(propertyName, parameter);
+        var left = AggregatePath(propertyPath, parameter);
         if (left.Type != typeof(string) && value is string stringValue)
         {
             value = ConvertStringToType(stringValue, left.Type);
         }
 
         var body = MakeComparison(left, comparison, value);
+        return Expression.Lambda<Func<T, bool>>(body, parameter);
+    }
+    public static Expression<Func<T, bool>> BuildInPredicate<T>(string propertyPath, IList value)
+    {
+        var parameter = Expression.Parameter(typeof(T));
+        var left = AggregatePath(propertyPath, parameter);
+        var listType = value.GetType();
+        var constant = Expression.Constant(value, listType);
+        var itemType = listType.GetGenericArguments()[0];
+        if (itemType != left.Type)
+        {
+            throw new Exception($"PropertyPath ({propertyPath}) and list type do not match. PropertyPath Type: {left.Type.FullName}. List Type: {itemType.FullName}.");
+        }
+        var inInfo = listType.GetMethod("Contains", new[] { itemType });
+        var body = Expression.Call(constant, inInfo, left);
         return Expression.Lambda<Func<T, bool>>(body, parameter);
     }
 
@@ -68,9 +84,9 @@ public static class ExpressionUtils
         throw new NotSupportedException($"Invalid comparison operator '{comparison}'.");
     }
 
-    static Expression AggregatePath(string propertyName, Expression parameter)
+    static Expression AggregatePath(string propertyPath, Expression parameter)
     {
-        return propertyName.Split('.')
+        return propertyPath.Split('.')
             .Aggregate(parameter, Expression.PropertyOrField);
     }
 }
