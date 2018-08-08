@@ -39,6 +39,7 @@ public static class ExpressionUtils
     static Expression MakeComparison(Expression left, string comparison, object value)
     {
         var constant = Expression.Constant(value, left.Type);
+
         switch (comparison)
         {
             case "==":
