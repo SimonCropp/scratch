@@ -5,7 +5,8 @@ class Program
 {
     static void Main()
     {
-        Console.WriteLine( typeof(SqlConnection).Assembly.CodeBase);
+        var assemblyCodeBase = typeof(SqlConnection).Assembly.CodeBase;
+        Console.WriteLine( assemblyCodeBase);
         Console.ReadKey();
     }
 }
