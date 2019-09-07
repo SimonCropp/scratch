@@ -1,8 +1,7 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26720.2
-MinimumVisualStudioVersion = 10.0.40219.1
+MinimumVisualStudioVersion = 16.0.29201.188
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X86Console", "X86Console\X86Console.csproj", "{B9987CD2-7D9D-43AE-A787-00DFA9A32483}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X64Console", "X64Console\X64Console.csproj", "{FDC02D2A-A70B-4C92-9646-FB484D5783BA}"
