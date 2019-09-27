@@ -1,4 +1,4 @@
-test run work in in resharper
+test run works in resharper
 
 fails with `dotnet test`:
 
