@@ -10,3 +10,6 @@ https://marketplace.visualstudio.com/items?itemName=Shanewho.IHateRegions
 https://marketplace.visualstudio.com/items?itemName=MadsKristensen.TrailingWhitespaceVisualizer
 
 setx DOTNET_CLI_TELEMETRY_OPTOUT 1
+
+
+https://visualstudioextensions.vlasovstudio.com/2019/03/19/freeing-screen-space-in-visual-studio-2019/
