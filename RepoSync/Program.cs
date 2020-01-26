@@ -52,6 +52,6 @@ class Program
         sync.AddTargetRepository("SimonCropp", "XunitContext", "master");
 
 
-        return sync.Sync(SyncOutput.CreatePullRequest);
+        return sync.Sync(SyncOutput.MergePullRequest);
     }
 }
