@@ -19,6 +19,7 @@ public class Tests : XunitContextBase
         var sync = BuildSync();
         sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/.editorconfig", "src/.editorconfig");
         sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/config.yml", ".github/ISSUE_TEMPLATE/config.yml");
+        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/stale.yml", ".github/stale.yml");
         sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/workflows/on-tag-do-release.yml", ".github/workflows/on-tag-do-release.yml");
 
         sync.AddTargetRepository("SimonCropp", "MarkdownSnippets", "master");
@@ -31,6 +32,7 @@ public class Tests : XunitContextBase
         var sync = BuildSync();
         sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/.editorconfig", "src/.editorconfig");
         sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/config.yml", ".github/ISSUE_TEMPLATE/config.yml");
+        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/stale.yml", ".github/stale.yml");
         sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/workflows/on-push-do-doco.yml", ".github/workflows/on-push-do-doco.yml");
         sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/workflows/on-tag-do-release.yml", ".github/workflows/on-tag-do-release.yml");
 
