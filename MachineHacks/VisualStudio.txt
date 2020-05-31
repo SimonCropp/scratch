@@ -21,3 +21,10 @@ Help > Send feedback > Settings > disable
 Tools > Options > Text Editor > JavaScript/TypeScript > Language Service...
 
 Uncheck 'Enable the new JavaScript language service'.
+
+
+https://blog.jetbrains.com/dotnet/2020/05/11/story-csproj-large-solutions-memory-usage/
+
+MSBUILDSINGLELOADCONTEXT=1
+
+https://github.com/microsoft/msbuild/issues/5202	
