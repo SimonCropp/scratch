@@ -60,7 +60,7 @@ public class Tests : XunitContextBase
         sync.AddTargetRepository("CopyText", "TextCopy", "master");
         sync.AddTargetRepository("SimonCropp", "Timestamp", "master");
         sync.AddTargetRepository("VerifyTests", "Verify", "master");
-        sync.AddTargetRepository("VerifyTests", "Verify.AngleSharp ", "master");
+        sync.AddTargetRepository("VerifyTests", "Verify.AngleSharp", "master");
         sync.AddTargetRepository("VerifyTests", "Verify.Aspose", "master");
         sync.AddTargetRepository("VerifyTests", "Verify.Blazor", "master");
         sync.AddTargetRepository("VerifyTests", "Verify.Cosmos ", "master");
