@@ -11,7 +11,7 @@ public class Tests : XunitContextBase
     public async Task Run()
     {
         await RunSync();
-      //  await RunMdSnippetsSync();
+        await RunMdSnippetsSync();
     }
 
     Task RunMdSnippetsSync()
@@ -63,19 +63,19 @@ public class Tests : XunitContextBase
         sync.AddTargetRepository("VerifyTests", "Verify.AngleSharp", "master");
         sync.AddTargetRepository("VerifyTests", "Verify.Aspose", "master");
         sync.AddTargetRepository("VerifyTests", "Verify.Blazor", "master");
-        sync.AddTargetRepository("VerifyTests", "Verify.Cosmos ", "master");
-        sync.AddTargetRepository("VerifyTests", "Verify.DiffPlex  ", "master");
-        sync.AddTargetRepository("VerifyTests", "Verify.DiffEngine  ", "master");
+        sync.AddTargetRepository("VerifyTests", "Verify.Cosmos", "master");
+        sync.AddTargetRepository("VerifyTests", "Verify.DiffPlex", "master");
+        sync.AddTargetRepository("VerifyTests", "DiffEngine", "master");
         sync.AddTargetRepository("VerifyTests", "Verify.EntityFramework", "master");
-        sync.AddTargetRepository("VerifyTests", "Verify.HeadlessBrowsers ", "master");
+        sync.AddTargetRepository("VerifyTests", "Verify.HeadlessBrowsers", "master");
         sync.AddTargetRepository("VerifyTests", "Verify.ImageSharp", "master");
-        sync.AddTargetRepository("VerifyTests", "Verify.ImageMagick ", "master");
-        sync.AddTargetRepository("VerifyTests", "Verify.ICSharpCode.Decompiler  ", "master");
-        sync.AddTargetRepository("VerifyTests", "Verify.Phash ", "master");
+        sync.AddTargetRepository("VerifyTests", "Verify.ImageMagick", "master");
+        sync.AddTargetRepository("VerifyTests", "Verify.ICSharpCode.Decompiler", "master");
+        sync.AddTargetRepository("VerifyTests", "Verify.Phash", "master");
         sync.AddTargetRepository("VerifyTests", "Verify.RavenDB", "master");
         sync.AddTargetRepository("VerifyTests", "Verify.SqlServer", "master");
         sync.AddTargetRepository("VerifyTests", "Verify.Web", "master");
-        sync.AddTargetRepository("VerifyTests", "Verify.WinForms ", "master");
+        sync.AddTargetRepository("VerifyTests", "Verify.WinForms", "master");
         sync.AddTargetRepository("VerifyTests", "Verify.Xaml", "master");
         sync.AddTargetRepository("VerifyTests", "Verify.Xamarin", "master");
         sync.AddTargetRepository("SimonCropp", "WaffleGenerator", "master");
