@@ -114,15 +114,8 @@ REG ADD "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Ad
 :: File Explorer - This PC instead of Quick Access
 REG ADD "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "LaunchTo" /t REG_DWORD /d 1 /f
 
-:: Privacy - Do not show recently or frequently accessed files in Quick access (Explorer).
-REG ADD "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "ShowFrequent" /t REG_DWORD /d 0 /f
-REG ADD "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "ShowRecent" /t REG_DWORD /d 0 /f
-
 :: Privacy - Disable tailored experiences with diagnostic data.
 REG ADD "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Privacy" /v "TailoredExperiencesWithDiagnosticDataEnabled" /t REG_DWORD /d 0 /f
-
-:: Remove all AppX Programs except the ones that I use
-start /wait C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command "& Get-AppxPackage | ? { $_.Name -ne 'PaloAltoNetworks.GlobalProtect' -and $_.Name -ne 'Microsoft.Office.OneNote' -and $_.Name -ne 'Microsoft.Windows.Photos' -and $_.Name -ne 'Microsoft.WindowsCalculator' -and $_.Name -ne 'Microsoft.WindowsStore' -and $_.Name -ne '37833NikRolls.uBlockOrigin' -and $_.Name -ne '22324SteveMiller.PureText' } | Remove-AppxPackage"
 
 :: Keep them removed during upgrades
 :: https://docs.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update
