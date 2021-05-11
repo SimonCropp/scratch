@@ -166,14 +166,8 @@ REG ADD "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\SettingSync
 REG ADD "HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main" /v "Start Page" /t REG_SZ /d "about:blank" /f
 REG ADD "HKEY_CURRENT_USER\Software\Policies\Microsoft\Internet Explorer\Geolocation" /v "PolicyDisableGeolocation" /t REG_DWORD /d 1 /f
 
-:: General - Force enable HTTP/2 in Internet Explorer.
-REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\Internet Settings" /v "EnableHTTP2" /t REG_DWORD /d 1 /f
-
 :: IE - Disable 'Default Browser' check
 REG ADD "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Internet Explorer\Main" /v Check_Associations /t REG_SZ /d "no" /f
-
-:: IE - Disable Password Caching [Disable Remember Password]
-REG ADD "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings" /v DisablePasswordCaching /t REG_DWORD /d 1 /f
 
 :: Snap - Disable "Window Snap" Automatic Window Arrangement
 REG DELETE "HKEY_CURRENT_USER\Control Panel\Desktop" /v WindowArrangementActive /f
@@ -196,29 +190,5 @@ REG ADD HKEY_CURRENT_USER\Software\Microsoft\Office\Common\WhatsNew /v SuppressF
 REG ADD HKEY_CURRENT_USER\SOFTWARE\Microsoft\Office\16.0\Word /v DontAutoSave /t REG_DWORD /d 1 /f
 REG ADD HKEY_CURRENT_USER\SOFTWARE\Microsoft\Office\16.0\Excel /v DontAutoSave /t REG_DWORD /d 1 /f
 REG ADD HKEY_CURRENT_USER\SOFTWARE\Microsoft\Office\16.0\Powerpoint /v DontAutoSave /t REG_DWORD /d 1 /f
-
-:: Enable Outlook QueryBuilder so I can use "OR" in Outlook Rules.
-:: https://www.slipstick.com/outlook/using-query-builder/
-REG ADD HKEY_CURRENT_USER\SOFTWARE\Microsoft\Office\16.0\Outlook\QueryBuilder /f
-
-:: Disable Outlook notifications/interruptions. Why don't these settings roam yet?
-REG ADD HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\Outlook\Preferences /v ChangePointer /t REG_DWORD /d 0 /f
-REG ADD HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\Outlook\Preferences /v NewmailDesktopAlerts /t REG_DWORD /d 0 /f
-REG ADD HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\Outlook\Preferences /v PlaySound /t REG_DWORD /d 0 /f
-REG ADD HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\Outlook\Preferences /v ShowEnvelope /t REG_DWORD /d 0 /f
-
-:: Disable TLS 1.0 & TLS 1.1.
-:::::::::::::::::::::::::::::::: Warning ::::::::::::::::::::::::::::::::
-:: This will break anything that does not support TLS 1.2. Mostly .NET apps. See SystemDefaultTlsVersions
-REG ADD "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.0\Client" /v Enabled /f /t REG_DWORD /d 0
-REG ADD "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.0\Server" /v Enabled /f /t REG_DWORD /d 0
-REG ADD "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.1\Client" /v Enabled /f /t REG_DWORD /d 0
-REG ADD "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.1\Server" /v Enabled /f /t REG_DWORD /d 0
-
-:: Add .NET SystemDefaultTlsVersions back compat flag so that .NET <4.7 apps can use TLS 1.2
-REG ADD HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\.NETFramework\v2.0.50727 /v SystemDefaultTlsVersions /t REG_DWORD /d 1 /f /reg:64
-REG ADD HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\.NETFramework\v2.0.50727 /v SystemDefaultTlsVersions /t REG_DWORD /d 1 /f /reg:32
-REG ADD HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\.NETFramework\v4.0.30319 /v SystemDefaultTlsVersions /t REG_DWORD /d 1 /f /reg:64
-REG ADD HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\.NETFramework\v4.0.30319 /v SystemDefaultTlsVersions /t REG_DWORD /d 1 /f /reg:32
 
 pause
