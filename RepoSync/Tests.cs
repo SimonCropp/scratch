@@ -71,7 +71,7 @@ public class Tests : XunitContextBase
         sync.AddTargetRepository("VerifyTests", "Verify.ImageSharp", "master");
         sync.AddTargetRepository("VerifyTests", "Verify.ImageMagick", "master");
         sync.AddTargetRepository("VerifyTests", "Verify.ICSharpCode.Decompiler", "master");
-        sync.AddTargetRepository("VerifyTests", "Verify.NodaTime", "master");
+        sync.AddTargetRepository("VerifyTests", "Verify.NodaTime", "main");
         sync.AddTargetRepository("VerifyTests", "Verify.Phash", "master");
         sync.AddTargetRepository("VerifyTests", "Verify.RavenDB", "master");
         sync.AddTargetRepository("VerifyTests", "Verify.SqlServer", "master");
