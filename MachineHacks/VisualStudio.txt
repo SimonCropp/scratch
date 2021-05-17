@@ -5,8 +5,6 @@ Disable node js https://stackoverflow.com/questions/42769106/visual-studio-2017-
 
 disable-perfwatson2 https://stackoverflow.com/questions/42662444/how-to-disable-perfwatson2-exe-from-visual-studio-2017
 
-https://marketplace.visualstudio.com/items?itemName=Shanewho.IHateRegions
-
 https://marketplace.visualstudio.com/items?itemName=MadsKristensen.TrailingWhitespaceVisualizer
 
 setx DOTNET_CLI_TELEMETRY_OPTOUT 1
