@@ -81,22 +81,28 @@ public class Tests : XunitContextBase
         yield return new("VerifyTests", "EmptyFiles");
         yield return new("VerifyTests", "Verify");
         yield return new("VerifyTests", "Verify.AngleSharp");
-        yield return new("VerifyTests", "Verify.AspNetCore ");
+        yield return new("VerifyTests", "Verify.AspNetCore");
         yield return new("VerifyTests", "Verify.Aspose");
         yield return new("VerifyTests", "Verify.Blazor");
         yield return new("VerifyTests", "Verify.Cosmos");
+        yield return new("VerifyTests", "Verify.DocNet ");
         yield return new("VerifyTests", "Verify.DiffPlex");
         yield return new("VerifyTests", "DiffEngine");
+        yield return new("VerifyTests", "Verify.GrapeCity");
         yield return new("VerifyTests", "Verify.EntityFramework");
         yield return new("VerifyTests", "Verify.HeadlessBrowsers");
         yield return new("VerifyTests", "Verify.ImageHash");
         yield return new("VerifyTests", "Verify.ImageSharp");
         yield return new("VerifyTests", "Verify.ImageMagick");
+        yield return new("VerifyTests", "Verify.MassTransit");
         yield return new("VerifyTests", "Verify.MicrosoftLogging");
         yield return new("VerifyTests", "Verify.ICSharpCode.Decompiler");
+        yield return new("VerifyTests", "Verify.NServiceBus");
         yield return new("VerifyTests", "Verify.NodaTime");
         yield return new("VerifyTests", "Verify.NSubstitute");
         yield return new("VerifyTests", "Verify.Phash");
+        yield return new("VerifyTests", "Verify.Phash");
+        yield return new("VerifyTests", "Verify.Quibble");
         yield return new("VerifyTests", "Verify.RavenDB");
         yield return new("VerifyTests", "Verify.Syncfusion");
         yield return new("VerifyTests", "Verify.SourceGenerators");
@@ -105,6 +111,24 @@ public class Tests : XunitContextBase
         yield return new("VerifyTests", "Verify.WinForms");
         yield return new("VerifyTests", "Verify.Xaml");
         yield return new("VerifyTests", "Verify.Xamarin");
+
+        yield return new("NServiceBus", "Newtonsoft.Json.Encryption ");
+        yield return new("NServiceBus", "Attachments");
+        yield return new("NServiceBus", "AuditFilter");
+        yield return new("NServiceBus", "Bond");
+        yield return new("NServiceBus", "HandlerOrdering");
+        yield return new("NServiceBus", "Hyperion");
+        yield return new("NServiceBus", "Jil");
+        yield return new("NServiceBus", "Json");
+        yield return new("NServiceBus", "MessagePack");
+        yield return new("NServiceBus", "MicrosoftLogging");
+        yield return new("NServiceBus", "MsgPack");
+        yield return new("NServiceBus", "ProtoBufGoogle");
+        yield return new("NServiceBus", "ProtoBufNet");
+        yield return new("NServiceBus", "Serilog");
+        yield return new("NServiceBus", "SqlNative");
+        yield return new("NServiceBus", "Utf8Json");
+        yield return new("NServiceBus", "Validation");
     }
 
     private static void AddCommonItems(RepoSync sync)
