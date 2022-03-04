@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using GitHubSync;
 using Octokit;
@@ -12,77 +13,107 @@ public class Tests : XunitContextBase
     {
         await RunSync();
         await RunMdSnippetsSync();
+        await SyncDotSettings();
     }
 
     Task RunMdSnippetsSync()
     {
         var sync = BuildSync();
-        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/.editorconfig", "src/.editorconfig");
-        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/config.yml", ".github/ISSUE_TEMPLATE/config.yml");
-        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/on-tag-do-release.yml", ".github/workflows/on-tag-do-release.yml");
-        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/merge-dependabot.yml", ".github/workflows/merge-dependabot.yml");
-        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/dependabot.yml", ".github/dependabot.yml");
-
-        sync.AddTargetRepository("SimonCropp", "MarkdownSnippets", "master");
-
+        AddCommonItems(sync);
+        sync.AddTargetRepository("SimonCropp", "MarkdownSnippets", "main");
         return sync.Sync(SyncOutput.MergePullRequest);
     }
 
     Task RunSync()
     {
         var sync = BuildSync();
+        AddCommonItems(sync);
+        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/on-push-do-doco.yml", ".github/workflows/on-push-do-doco.yml");
+        sync.AddTargetRepository("SimonCropp", "MarkdownSnippets", "main");
+        foreach (var (org, repo) in RepoList())
+        {
+            sync.AddTargetRepository(org, repo, "main");
+        }
+
+        return sync.Sync(SyncOutput.MergePullRequest);
+    }
+
+    Task SyncDotSettings()
+    {
+        var sync = BuildSync();
+        sync.AddTargetRepository("SimonCropp", "MarkdownSnippets", "main");
+        foreach (var (org, repo) in RepoList())
+        {
+            sync.AddTargetRepository(org, repo, "main");
+            sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/Resharper.sln.DotSettings", $"src/{repo}.sln.DotSettings");
+        }
+
+        return sync.Sync(SyncOutput.MergePullRequest);
+    }
+
+    IEnumerable<(string org, string repo)> RepoList()
+    {
+        yield return new("pmcau", "AustralianElectorates");
+        yield return new("SimonCropp", "Argon");
+        yield return new("SimonCropp", "CountryData");
+        yield return new("SimonCropp", "ExtendedFluentValidation");
+        yield return new("FluentDateTime", "FluentDateTime");
+        yield return new("SimonCropp", "GitHubSync");
+        yield return new("SimonCropp", "GitModTimes");
+        yield return new("SimonCropp", "GraphQL.Attachments");
+        yield return new("SimonCropp", "GraphQL.EntityFramework");
+        yield return new("SimonCropp", "GraphQL.Validation");
+        yield return new("SimonCropp", "LocalDb");
+        yield return new("SimonCropp", "NaughtyStrings");
+        yield return new("SimonCropp", "NodaTime.Bogus");
+        yield return new("SimonCropp", "NullabilityInfo");
+        yield return new("SimonCropp", "PandocNet");
+        yield return new("SimonCropp", "PackageUpdate");
+        yield return new("SimonCropp", "OssIndexClient");
+        yield return new("SimonCropp", "Replicant");
+        yield return new("SimonCropp", "SeqProxy");
+        yield return new("SimonCropp", "SetStartupProjects");
+        yield return new("SimonCropp", "SimpleInfoName");
+        yield return new("CopyText", "TextCopy");
+        yield return new("SimonCropp", "Timestamp");
+        yield return new("SimonCropp", "WaffleGenerator");
+        yield return new("SimonCropp", "XunitContext");
+        yield return new("VerifyTests", "EmptyFiles");
+        yield return new("VerifyTests", "Verify");
+        yield return new("VerifyTests", "Verify.AngleSharp");
+        yield return new("VerifyTests", "Verify.AspNetCore ");
+        yield return new("VerifyTests", "Verify.Aspose");
+        yield return new("VerifyTests", "Verify.Blazor");
+        yield return new("VerifyTests", "Verify.Cosmos");
+        yield return new("VerifyTests", "Verify.DiffPlex");
+        yield return new("VerifyTests", "DiffEngine");
+        yield return new("VerifyTests", "Verify.EntityFramework");
+        yield return new("VerifyTests", "Verify.HeadlessBrowsers");
+        yield return new("VerifyTests", "Verify.ImageHash");
+        yield return new("VerifyTests", "Verify.ImageSharp");
+        yield return new("VerifyTests", "Verify.ImageMagick");
+        yield return new("VerifyTests", "Verify.MicrosoftLogging");
+        yield return new("VerifyTests", "Verify.ICSharpCode.Decompiler");
+        yield return new("VerifyTests", "Verify.NodaTime");
+        yield return new("VerifyTests", "Verify.NSubstitute");
+        yield return new("VerifyTests", "Verify.Phash");
+        yield return new("VerifyTests", "Verify.RavenDB");
+        yield return new("VerifyTests", "Verify.Syncfusion");
+        yield return new("VerifyTests", "Verify.SourceGenerators");
+        yield return new("VerifyTests", "Verify.SqlServer");
+        yield return new("VerifyTests", "Verify.Http");
+        yield return new("VerifyTests", "Verify.WinForms");
+        yield return new("VerifyTests", "Verify.Xaml");
+        yield return new("VerifyTests", "Verify.Xamarin");
+    }
+
+    private static void AddCommonItems(RepoSync sync)
+    {
         sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/.editorconfig", "src/.editorconfig");
         sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/config.yml", ".github/ISSUE_TEMPLATE/config.yml");
-        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/on-push-do-doco.yml", ".github/workflows/on-push-do-doco.yml");
         sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/on-tag-do-release.yml", ".github/workflows/on-tag-do-release.yml");
         sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/merge-dependabot.yml", ".github/workflows/merge-dependabot.yml");
         sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/dependabot.yml", ".github/dependabot.yml");
-
-        sync.AddTargetRepository("pmcau", "AustralianElectorates", "main");
-        sync.AddTargetRepository("SimonCropp", "Alt.SharePoint.Client", "main");
-        sync.AddTargetRepository("SimonCropp", "CountryData", "main");
-        sync.AddTargetRepository("VerifyTests", "EmptyFiles", "main");
-        sync.AddTargetRepository("SimonCropp", "EfFluentValidation", "main");
-        sync.AddTargetRepository("FluentDateTime", "FluentDateTime", "main");
-        sync.AddTargetRepository("SimonCropp", "GitHubSync", "main");
-        sync.AddTargetRepository("SimonCropp", "GitModTimes", "main");
-        sync.AddTargetRepository("SimonCropp", "GraphQL.Attachments", "main");
-        sync.AddTargetRepository("SimonCropp", "GraphQL.EntityFramework", "main");
-        sync.AddTargetRepository("SimonCropp", "GraphQL.Validation", "main");
-        sync.AddTargetRepository("SimonCropp", "LocalDb", "main");
-        sync.AddTargetRepository("SimonCropp", "NaughtyStrings", "main");
-        sync.AddTargetRepository("SimonCropp", "NodaTime.Bogus", "main");
-        sync.AddTargetRepository("SimonCropp", "PackageUpdate", "main");
-        sync.AddTargetRepository("SimonCropp", "OssIndexClient", "main");
-        sync.AddTargetRepository("SimonCropp", "Replicant", "main");
-        sync.AddTargetRepository("SimonCropp", "SeqProxy", "main");
-        sync.AddTargetRepository("SimonCropp", "SetStartupProjects", "main");
-        sync.AddTargetRepository("CopyText", "TextCopy", "main");
-        sync.AddTargetRepository("SimonCropp", "Timestamp", "main");
-        sync.AddTargetRepository("SimonCropp", "WaffleGenerator", "main");
-        sync.AddTargetRepository("SimonCropp", "XunitContext", "main");
-        sync.AddTargetRepository("VerifyTests", "Verify", "main");
-        sync.AddTargetRepository("VerifyTests", "Verify.AngleSharp", "main");
-        sync.AddTargetRepository("VerifyTests", "Verify.Aspose", "main");
-        sync.AddTargetRepository("VerifyTests", "Verify.Blazor", "main");
-        sync.AddTargetRepository("VerifyTests", "Verify.Cosmos", "main");
-        sync.AddTargetRepository("VerifyTests", "Verify.DiffPlex", "main");
-        sync.AddTargetRepository("VerifyTests", "DiffEngine", "main");
-        sync.AddTargetRepository("VerifyTests", "Verify.EntityFramework", "main");
-        sync.AddTargetRepository("VerifyTests", "Verify.HeadlessBrowsers", "main");
-        sync.AddTargetRepository("VerifyTests", "Verify.ImageSharp", "main");
-        sync.AddTargetRepository("VerifyTests", "Verify.ImageMagick", "main");
-        sync.AddTargetRepository("VerifyTests", "Verify.ICSharpCode.Decompiler", "main");
-        sync.AddTargetRepository("VerifyTests", "Verify.NodaTime", "main");
-        sync.AddTargetRepository("VerifyTests", "Verify.Phash", "main");
-        sync.AddTargetRepository("VerifyTests", "Verify.RavenDB", "main");
-        sync.AddTargetRepository("VerifyTests", "Verify.SqlServer", "main");
-        sync.AddTargetRepository("VerifyTests", "Verify.Web", "main");
-        sync.AddTargetRepository("VerifyTests", "Verify.WinForms", "main");
-        sync.AddTargetRepository("VerifyTests", "Verify.Xaml", "main");
-        sync.AddTargetRepository("VerifyTests", "Verify.Xamarin", "main");
-
-        return sync.Sync(SyncOutput.MergePullRequest);
     }
 
     RepoSync BuildSync()
@@ -98,12 +129,11 @@ public class Tests : XunitContextBase
         sync.AddSourceRepository(
             owner: "SimonCropp",
             repository: "Scratch",
-            branch: "master");
+            branch: "main");
         return sync;
     }
 
     public Tests(ITestOutputHelper output) : base(output)
     {
     }
-
 }
