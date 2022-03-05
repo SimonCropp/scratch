@@ -51,7 +51,7 @@ public class Tests : XunitContextBase
         return sync.Sync(SyncOutput.MergePullRequest);
     }
 
-    IEnumerable<(string org, string repo)> RepoList()
+    static IEnumerable<(string org, string repo)> RepoList()
     {
         yield return new("pmcau", "AustralianElectorates");
         yield return new("SimonCropp", "Argon");
