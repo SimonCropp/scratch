@@ -38,17 +38,20 @@ public class Tests : XunitContextBase
         return sync.Sync(SyncOutput.MergePullRequest);
     }
 
-    Task SyncDotSettings()
+    async Task SyncDotSettings()
     {
-        var sync = BuildSync();
-        sync.AddTargetRepository("SimonCropp", "MarkdownSnippets", "main");
+        var snippetsSync = BuildSync();
+        snippetsSync.AddTargetRepository("SimonCropp", "MarkdownSnippets", "main");
+        snippetsSync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/Resharper.sln.DotSettings", $"src/MarkdownSnippets.sln.DotSettings");
+        await snippetsSync.Sync(SyncOutput.MergePullRequest);
+
         foreach (var (org, repo) in RepoList())
         {
+            var sync = BuildSync();
             sync.AddTargetRepository(org, repo, "main");
             sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/Resharper.sln.DotSettings", $"src/{repo}.sln.DotSettings");
+            await sync.Sync(SyncOutput.MergePullRequest);
         }
-
-        return sync.Sync(SyncOutput.MergePullRequest);
     }
 
     static IEnumerable<(string org, string repo)> RepoList()
