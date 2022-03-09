@@ -88,7 +88,7 @@ public class Tests : XunitContextBase
         yield return new("VerifyTests", "Verify.Aspose");
         yield return new("VerifyTests", "Verify.Blazor");
         yield return new("VerifyTests", "Verify.Cosmos");
-        yield return new("VerifyTests", "Verify.DocNet ");
+        yield return new("VerifyTests", "Verify.DocNet");
         yield return new("VerifyTests", "Verify.DiffPlex");
         yield return new("VerifyTests", "DiffEngine");
         yield return new("VerifyTests", "Verify.GrapeCity");
@@ -115,23 +115,23 @@ public class Tests : XunitContextBase
         yield return new("VerifyTests", "Verify.Xaml");
         yield return new("VerifyTests", "Verify.Xamarin");
 
-        yield return new("NServiceBus", "Newtonsoft.Json.Encryption ");
-        yield return new("NServiceBus", "Attachments");
-        yield return new("NServiceBus", "AuditFilter");
-        yield return new("NServiceBus", "Bond");
-        yield return new("NServiceBus", "HandlerOrdering");
-        yield return new("NServiceBus", "Hyperion");
-        yield return new("NServiceBus", "Jil");
-        yield return new("NServiceBus", "Json");
-        yield return new("NServiceBus", "MessagePack");
-        yield return new("NServiceBus", "MicrosoftLogging");
-        yield return new("NServiceBus", "MsgPack");
-        yield return new("NServiceBus", "ProtoBufGoogle");
-        yield return new("NServiceBus", "ProtoBufNet");
-        yield return new("NServiceBus", "Serilog");
-        yield return new("NServiceBus", "SqlNative");
-        yield return new("NServiceBus", "Utf8Json");
-        yield return new("NServiceBus", "Validation");
+        yield return new("NServiceBusExtensions", "Newtonsoft.Json.Encryption");
+        yield return new("NServiceBusExtensions", "NServiceBus.Attachments");
+        yield return new("NServiceBusExtensions", "NServiceBus.AuditFilter");
+        yield return new("NServiceBusExtensions", "NServiceBus.Bond");
+        yield return new("NServiceBusExtensions", "NServiceBus.HandlerOrdering");
+        yield return new("NServiceBusExtensions", "NServiceBus.Hyperion");
+        yield return new("NServiceBusExtensions", "NServiceBus.Jil");
+        yield return new("NServiceBusExtensions", "NServiceBus.Json");
+        yield return new("NServiceBusExtensions", "NServiceBus.MessagePack");
+        yield return new("NServiceBusExtensions", "NServiceBus.MicrosoftLogging");
+        yield return new("NServiceBusExtensions", "NServiceBus.MsgPack");
+        yield return new("NServiceBusExtensions", "NServiceBus.ProtoBufGoogle");
+        yield return new("NServiceBusExtensions", "NServiceBus.ProtoBufNet");
+        yield return new("NServiceBusExtensions", "NServiceBus.Serilog");
+        yield return new("NServiceBusExtensions", "NServiceBus.SqlNative");
+        yield return new("NServiceBusExtensions", "NServiceBus.Utf8Json");
+        yield return new("NServiceBusExtensions", "NServiceBus.Validation");
     }
 
     private static void AddCommonItems(RepoSync sync)
