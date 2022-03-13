@@ -9,40 +9,43 @@ using Xunit.Abstractions;
 public class Tests : XunitContextBase
 {
     [Fact]
+    public async Task RunMdSnippets()
+    {
+        var sync = BuildSync();
+        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/.editorconfig", "src/.editorconfig");
+        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/config.yml", ".github/ISSUE_TEMPLATE/config.yml");
+        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/on-tag-do-release.yml", ".github/workflows/on-tag-do-release.yml");
+        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/merge-dependabot.yml", ".github/workflows/merge-dependabot.yml");
+        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/dependabot.yml", ".github/dependabot.yml");
+        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/Resharper.sln.DotSettings", $"src/MarkdownSnippets.sln.DotSettings");
+        sync.AddTargetRepository("SimonCropp", "MarkdownSnippets", "main");
+        await sync.Sync(SyncOutput.MergePullRequest);
+    }
+
+    [Fact]
     public async Task Run()
     {
-        await RunSync();
-        await RunMdSnippetsSync();
-        await SyncDotSettings();
-    }
-
-    Task RunMdSnippetsSync()
-    {
         var sync = BuildSync();
-        AddCommonItems(sync);
-        sync.AddTargetRepository("SimonCropp", "MarkdownSnippets", "main");
-        return sync.Sync(SyncOutput.MergePullRequest);
-    }
-
-    Task RunSync()
-    {
-        var sync = BuildSync();
-        AddCommonItems(sync);
+        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/.editorconfig", "src/.editorconfig");
+        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/config.yml", ".github/ISSUE_TEMPLATE/config.yml");
+        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/on-tag-do-release.yml", ".github/workflows/on-tag-do-release.yml");
+        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/merge-dependabot.yml", ".github/workflows/merge-dependabot.yml");
+        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/dependabot.yml", ".github/dependabot.yml");
         sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/on-push-do-doco.yml", ".github/workflows/on-push-do-doco.yml");
-        sync.AddTargetRepository("SimonCropp", "MarkdownSnippets", "main");
         foreach (var (org, repo) in RepoList())
         {
             sync.AddTargetRepository(org, repo, "main");
         }
 
-        return sync.Sync(SyncOutput.MergePullRequest);
+        await sync.Sync(SyncOutput.MergePullRequest);
+
+        await SyncDotSettings();
     }
+
 
     async Task SyncDotSettings()
     {
         var snippetsSync = BuildSync();
-        snippetsSync.AddTargetRepository("SimonCropp", "MarkdownSnippets", "main");
-        snippetsSync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/Resharper.sln.DotSettings", $"src/MarkdownSnippets.sln.DotSettings");
         await snippetsSync.Sync(SyncOutput.MergePullRequest);
 
         foreach (var (org, repo) in RepoList())
@@ -91,7 +94,6 @@ public class Tests : XunitContextBase
         yield return new("VerifyTests", "Verify.DocNet");
         yield return new("VerifyTests", "Verify.DiffPlex");
         yield return new("VerifyTests", "DiffEngine");
-        yield return new("VerifyTests", "Verify.GrapeCity");
         yield return new("VerifyTests", "Verify.EntityFramework");
         yield return new("VerifyTests", "Verify.HeadlessBrowsers");
         yield return new("VerifyTests", "Verify.ImageHash");
@@ -132,15 +134,6 @@ public class Tests : XunitContextBase
         yield return new("NServiceBusExtensions", "NServiceBus.SqlNative");
         yield return new("NServiceBusExtensions", "NServiceBus.Utf8Json");
         yield return new("NServiceBusExtensions", "NServiceBus.Validation");
-    }
-
-    private static void AddCommonItems(RepoSync sync)
-    {
-        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/.editorconfig", "src/.editorconfig");
-        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/config.yml", ".github/ISSUE_TEMPLATE/config.yml");
-        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/on-tag-do-release.yml", ".github/workflows/on-tag-do-release.yml");
-        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/merge-dependabot.yml", ".github/workflows/merge-dependabot.yml");
-        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/dependabot.yml", ".github/dependabot.yml");
     }
 
     RepoSync BuildSync()
