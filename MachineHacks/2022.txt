@@ -1,0 +1,45 @@
+Edge and sync
+sublime text
+start11
+Visual Studio
+7zip
+
+https://winaero.com/
+ * disable cortana
+ * disable ads
+ * wallpaper quality 100
+
+never combine taskbar buttons
+
+Programs to remove
+
+ * 3D Viewer
+ * Groove music
+ * One Drive
+ * Feedback Hub
+ * Teams
+ * Paint 3D
+ * Skype
+ * Solitaire
+ * Tips
+ * XBox *
+ * Movies & TV
+ * Weather
+ * Microsoft Whiteboard
+ * Mixed reality Portal
+ * Mail and Cal
+ * Teams Installer
+ * Voice Recorder
+ * Sticky Notes
+
+ * Microsoft Photos
+
+
+Uninstall XBox
+
+
+dism /Online /Get-ProvisionedAppxPackages | Select-String PackageName | Select-String xbox
+
+
+
+Remove-ProvisionedAppxPackage -Online -PackageName "RealtekSemiconductorCorp.HPAudioControl_2.32.261.0_neutral_~_dt26b99r8h8gj"
