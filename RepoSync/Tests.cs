@@ -17,7 +17,7 @@ public class Tests : XunitContextBase
         sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/on-tag-do-release.yml", ".github/workflows/on-tag-do-release.yml");
         sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/merge-dependabot.yml", ".github/workflows/merge-dependabot.yml");
         sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/dependabot.yml", ".github/dependabot.yml");
-        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/Resharper.sln.DotSettings", $"src/MarkdownSnippets.sln.DotSettings");
+        sync.AddSourceItem(TreeEntryTargetType.Blob, "RepoSync/Source/Resharper.sln.DotSettings", "src/MarkdownSnippets.sln.DotSettings");
         sync.AddTargetRepository("SimonCropp", "MarkdownSnippets", "main");
         await sync.Sync(SyncOutput.MergePullRequest);
     }
@@ -110,6 +110,7 @@ public class Tests : XunitContextBase
         yield return new("VerifyTests", "Verify.Quibble");
         yield return new("VerifyTests", "Verify.RavenDB");
         yield return new("VerifyTests", "Verify.Syncfusion");
+        yield return new("VerifyTests", "Verify.Serilog");
         yield return new("VerifyTests", "Verify.SourceGenerators");
         yield return new("VerifyTests", "Verify.SqlServer");
         yield return new("VerifyTests", "Verify.Http");
