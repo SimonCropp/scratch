@@ -121,19 +121,15 @@ public class Tests : XunitContextBase
         yield return new("NServiceBusExtensions", "Newtonsoft.Json.Encryption");
         yield return new("NServiceBusExtensions", "NServiceBus.Attachments");
         yield return new("NServiceBusExtensions", "NServiceBus.AuditFilter");
-        yield return new("NServiceBusExtensions", "NServiceBus.Bond");
         yield return new("NServiceBusExtensions", "NServiceBus.HandlerOrdering");
         yield return new("NServiceBusExtensions", "NServiceBus.Hyperion");
-        yield return new("NServiceBusExtensions", "NServiceBus.Jil");
         yield return new("NServiceBusExtensions", "NServiceBus.Json");
         yield return new("NServiceBusExtensions", "NServiceBus.MessagePack");
         yield return new("NServiceBusExtensions", "NServiceBus.MicrosoftLogging");
-        yield return new("NServiceBusExtensions", "NServiceBus.MsgPack");
         yield return new("NServiceBusExtensions", "NServiceBus.ProtoBufGoogle");
         yield return new("NServiceBusExtensions", "NServiceBus.ProtoBufNet");
         yield return new("NServiceBusExtensions", "NServiceBus.Serilog");
         yield return new("NServiceBusExtensions", "NServiceBus.SqlNative");
-        yield return new("NServiceBusExtensions", "NServiceBus.Utf8Json");
         yield return new("NServiceBusExtensions", "NServiceBus.Validation");
     }
 
