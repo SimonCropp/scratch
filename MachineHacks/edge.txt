@@ -1,0 +1,3 @@
+
+1. Add --disable-features=msUndersideButton to Edge shortcut
+2. Disable 'startup boost' in settings.
