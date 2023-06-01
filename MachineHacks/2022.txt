@@ -43,3 +43,7 @@ dism /Online /Get-ProvisionedAppxPackages | Select-String PackageName | Select-S
 
 
 Remove-ProvisionedAppxPackage -Online -PackageName "RealtekSemiconductorCorp.HPAudioControl_2.32.261.0_neutral_~_dt26b99r8h8gj"
+
+
+
+https://github.com/valinet/ExplorerPatcher
